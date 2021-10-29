@@ -4,6 +4,10 @@
     display: flex;
 }
 
+.contents-main {
+    flex-grow: 3;
+}
+
 :root {
     --primary: #58a4b0;
     --secondary: #373f51;
