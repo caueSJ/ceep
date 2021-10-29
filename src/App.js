@@ -4,51 +4,30 @@ import NotesList from './components/NotesList';
 import CategoriesList from './components/CategoriesList';
 import './assets/App.css';
 import './assets/index.css';
+import Categories from './assets/data/Categories';
+import NotesArray from './assets/data/Notes';
 class App extends Component {
     constructor() {
         super();
-        this.state = {
-            notes: [],
-            categories: []
-        };
-    }
-
-    createNote(title, text, category) {
-        const newNote = {title, text, category};
-        const newNotesArray = [...this.state.notes, newNote]
-        const newState = {
-            notes: newNotesArray
-        };
-        this.setState(newState);
-    }
-
-    deleteNote(cardIndex) {
-        let notesArray = this.state.notes;
-        notesArray.splice(cardIndex, 1);
-        this.setState({notes: notesArray})
-    }
-
-    addCategory(categoryName) {
-        const newCategoriesArray = [...this.state.categories, categoryName];
-        const newState = {...this.state, categories:newCategoriesArray};
-        this.setState(newState);
+        this.categories = new Categories();
+        this.notes = new NotesArray();
     }
 
     render(){
         return (
             <section className="contents">
                 <FormCreate
-                    categories={this.state.categories}
-                    createNote={this.createNote.bind(this)}
+                    categories={this.categories}
+                    createNote={this.notes.createNote.bind(this.notes)}
                 />
                 <div className="contents-main">
                     <CategoriesList
-                        categories={this.state.categories} 
-                        addCategory={this.addCategory.bind(this)}
+                        categories={this.categories}
+                        addCategory={this.categories.addCategory.bind(this.categories)}
                     />
                     <NotesList
-                        notes={this.state.notes}
-                        deleteNote={this.deleteNote.bind(this)}
+                        notes={this.notes}
+                        deleteNote={this.notes.deleteNote.bind(this.notes)}
                     />
                 </div>
             </section>

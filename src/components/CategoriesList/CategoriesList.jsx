@@ -2,6 +2,23 @@ import React, { Component } from 'react';
 import "./CategoriesList.css";
 
 class CategoriesList extends Component {
+    constructor() {
+        super();
+        this.state = {categories:[]};
+        this._newCategories = this._newCategories.bind(this);
+    }
+    
+    componentDidMount() {
+        this.props.categories.register(this._newCategories);
+    }
+
+    componentWillUnmount() {
+        this.props.categories.unregister(this._newCategories);
+    }
+
+    _newCategories(categories) {
+        this.setState({...this.state, categories})
+    }
 
     _handleInputEvent(event) {
         if (event.key === "Enter") {
@@ -14,7 +31,7 @@ class CategoriesList extends Component {
         return(
             <section className="categories">
                 <ul className="categories_list">
-                    {this.props.categories.map((category, index) => {
+                    {this.state.categories.map((category, index) => {
                         return (
                             <li key={index} className="categories_item">{category}</li>
                         );

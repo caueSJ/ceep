@@ -1,5 +1,4 @@
-import React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import "./FormCreate.css";
 
 class FormCreate extends Component {
@@ -9,11 +8,25 @@ class FormCreate extends Component {
         this.title = "";
         this.text = "";
         this.category = "";
+        this.state = {categories:[]}
+        this._newCategories = this._newCategories.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.categories.register(this._newCategories);
+    }
+
+    componentWillUnmount() {
+        this.props.categories.unregister(this._newCategories);
     }
 
     // Function/property start with _ (underscore) means it is private.
     // This is only a convention, the JS don't understand this.
 
+    _newCategories(categories) {
+        this.setState({...this.state, categories});
+    }
+    
     _handleTitleChange(event)  {
         event.stopPropagation();
         this.title = event.target.value;
@@ -43,8 +56,8 @@ class FormCreate extends Component {
                     onChange={this._handleCategoryChange.bind(this)}
                 >
                     <option>Select Category</option>
-                    {this.props.categories.map(category => {
-                        return <option>{category}</option>
+                    {this.state.categories.map((category, index) => {
+                        return <option key={index}>{category}</option>
                     })}
                 </select>
                 <input 
